@@ -1,0 +1,266 @@
+    /* =======================
+   STYLE GLOBAL DE LA PAGE
+======================= */
+    
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    /* =======================
+   NAVBAR (Barre du haut)
+======================= */
+    
+    .navbar {
+        height: 72px;
+        padding: 0 20px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .texte-descriptif div {
+        font-weight: 600;
+        font-size: 15px;
+    }
+    
+    .texte-descriptif .text {
+        color: #2596be;
+    }
+    
+    .texte-descriptif small {
+        font-size: 12px;
+    }
+    /* Taille du logo dans la navbar */
+    
+    .navbar img {
+        /* Hauteur du logo */
+        height: 50px;
+    }
+    /* SIDEBAR */
+    
+    .sidebar {
+        background: #ffffff;
+        border-right: 1px solid #e5e7eb;
+        box-shadow: 4px 0 12px rgba(0, 0, 0, .04);
+        padding: 14px !important;
+        min-height: 100px !important;
+    }
+    
+    .section-block {
+        margin-bottom: 22px;
+    }
+    
+    .section-title {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #6b7280;
+    }
+    
+    .section-title i {
+        font-size: 10px !important;
+    }
+    
+    .pref-box {
+        background: #f1f5f9;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 14px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        color: #334155;
+    }
+    
+    .section-title i {
+        color: #06516a;
+        font-size: 14px;
+    }
+    /* KPI CARDS */
+    
+    .kpi {
+        border-radius: 10px;
+        padding: 8px 10px;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        transition: .2s;
+    }
+    
+    .kpi:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, .08);
+    }
+    
+    .kpi i {
+        font-size: 10px;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #e0e7ff;
+        color: #0b7196;
+    }
+    
+    .kpi-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .kpi strong {
+        font-size: 10px;
+        color: #0b7196;
+    }
+    /* MAP */
+    
+    main {
+        height: calc(100vh - 72px);
+        position: relative;
+    }
+    
+    #map {
+        height: 100%;
+        width: 100%;
+        border-left: 1px solid #fff;
+    }
+    /* SEARCH BAR */
+    
+    .map-search {
+        top: 16px;
+        width: 95%;
+        max-width: 480px;
+        left: 50%;
+        position: absolute;
+        transform: translateX(-50%);
+        z-index: 1000;
+    }
+    
+    .map-search .input-group {
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, .15);
+    }
+    
+    .map-search input {
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+    
+    .map-search input:focus {
+        box-shadow: none;
+        outline: blue;
+    }
+    
+    .map-search button {
+        border-radius: 0 5px 5px 0;
+        background-color: #2596be;
+    }
+    
+    .map-search button:hover {
+        border-radius: 0 5px 5px 0;
+        background-color: #084156;
+        color: #ffffff;
+    }
+    /* CHART */
+    
+    .chart-container {
+        background: #ffffff;
+        border-radius: 10px;
+        padding: 10px;
+        border: 1px solid #e5e7eb;
+        max-height: 250px;
+        width: 100%;
+    }
+    /* footer */
+    
+    footer {
+        background: #ffffff;
+        border-top: 1px solid #e5e7eb;
+        padding: 12px 24px;
+        font-size: 13px;
+    }
+    
+    footer .fw-semibold {
+        color: #2596be;
+    }
+    /* =======================
+   RESPONSIVE MOBILE
+======================= */
+    
+    @media(max-width:768px) {
+        .sidebar {
+            border-right: none;
+            box-shadow: none;
+        }
+        .map-search {
+            top: 10px;
+            width: 92%;
+        }
+        .kpi {
+            font-size: 13px;
+        }
+        .kpi strong {
+            font-size: 16px;
+        }
+    }
+    /*Label de la carte */
+    
+    .leaflet-tooltip.district-label {
+        border: none;
+        background-color: #6b728005 !important;
+        padding: 2px 4px;
+        font-weight: bold;
+        color: #000;
+        font-size: 15px;
+        box-shadow: none;
+        font-family: serif;
+        text-shadow: 1px 1px 1px #fff, -1px 1px 2px #fff, 1px -1px 2px #fff, -1px -1px 2px #fff;
+    }
+    
+    .custom-popup .leaflet-popup-content-wrapper {
+        border: 4px solid #0c77b599;
+        border-radius: 4px;
+    }
+    
+    .custom-popup .leaflet-popup-tip {
+        background: #0d557fab;
+    }
+    /* Recherche non trouvée*/
+    
+    #noFound {
+        width: 300px;
+        margin: 10px auto;
+        padding: 5px 10px;
+        font-size: 14px;
+        text-align: center;
+        border-radius: 5px;
+        border: solid 2px#df590a;
+    }
+    
+    .search-toggle-btn {
+        position: absolute;
+        bottom: 735px;
+        right: 10px;
+        z-index: 1000;
+        background: #0A7DC0;
+        border: 2px solid #C3C0BB;
+        padding: 10px 12px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .search-toogle i {
+        color: #fff;
+    }

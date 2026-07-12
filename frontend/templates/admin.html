@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="shortcut icon" href="{% static 'img/e-sante.png' %}" type="image/x-icon">
+    <title>Page d'administration</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+</head>
+<body>
+    <!-- Navbar -->
+     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4">
+         <!-- Bouton hamburger (mobile) -->
+        <button class="btn btn-outline-primary d-lg-none me-2"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#sidebar">
+            <i class="fa fa-bars"></i>
+        </button>
+        <!-- Logo -->
+         <a class="navbar-logo" href="">
+            <img src="{% static 'img/e-sante.png' %}" alt="logo" height="50">
+         </a>
+         <!-- Profil utilisateur -->
+          <div class="ms-auto dropdown">
+            <a class="d-flex align-items-center text-decoration-none" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <!-- Nom de l'administrateur -->
+                 <span class="me-2 text-dark fw-semibold" id="adminiUser">Rémi</span>
+                 <!-- Photo de l'utilisateur -->
+                  <img id="userPhoto" src="{% static 'img/photo.jpg' %}" class="rounded-circle" height="30" alt="user photo">
+            </a>
+            <!--Menu de l'utilisateur -->
+            <ul class="dropdown-menu dropdown-menu-end shadow">
+                <!-- Lien du profil -->
+                 <li>
+                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profilModal">
+                        <i class="fa fa-user me-2" aria-hidden="true"></i>Profil
+                    </a>
+                 </li>
+                  <!-- Lien de paramètre -->
+                <li>
+                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#parametreModal">
+                        <i class="fa fa-cog me-2" aria-hidden="true"></i>Paramètre
+                    </a>
+                </li>
+                <!--Séparateur-->
+                <li>
+                    <hr class="dropdwn-divider icon-text">
+                </li>
+               <!-- Lien de déconnexion-->
+                <li>
+                    <a class="dropdown-item text-danger" href="">
+                        <i class="fa fa-sign-out me-2" aria-hidden="true"></i>Déconnexion
+                    </a>
+                </li>
+            </ul>
+          </div>
+     </nav>
+     <!--Contenu principal-->
+     <div class="container-fluid flex-grow-1">
+        <div class="row">
+            <!-- Menu vertical-->
+             <div class="col-md-2 sidebar p-0" id="sidebar">
+                  <!-- Header visible uniquement sur mobile -->
+                <div class="sidebar-header d-flex justify-content-between align-items-center p-3 d-lg-none">
+                    <strong class="text-white">MENU</strong>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+                </div>
+
+                <!--Onglets du menu -->
+                <ul class="nav flex-column nav-pills p-3" role="tablist">
+                    <!--Dashboard-->
+                    <li class="nav-item mb-2">
+                        <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#dashboard">
+                            <i class="fa fa-tachometer me-2" aria-hidden="true"></i>Tableau de bord
+                        </button>
+                    </li>
+                    <!--Mise à jour des données-->
+                    <li class="nav-item mb-2">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#updateData">
+                            <i class="fa fa-pencil-square me-2" aria-hidden="true"></i>Mise à jour des données
+                        </button>
+                    
+                    </li>
+                    <!--Historique des données-->
+                    <li class="nav-item mb-2">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#historic">
+                            <i class="fa fa-history me-2" aria-hidden="true"></i>Historique des données
+                        </button>
+                    
+                    </li>
+                       
+                </ul>
+                 
+                <!-- Bouton de déconnexion-->
+                 <div class="p-3 mt-auto">
+                    <!--Séparateur-->
+                    <hr class=" text-white">
+                    <a href="" class="btn btn-outline-light w-100">
+                        <i class="fa fa-sign-out me-2" aria-hidden="true"></i>Déconnexion
+                    </a>
+                 </div>
+             </div>
+             <!-- Contenu principal-->
+              <div class="col-lg-10 col-12 content-area">
+                    <!--contenu dynamique-->
+                    <div class="tab-content p-5">
+                        <!--Onglet Dashboard-->
+                        <div class="tab-pane fade show active" id="dashboard">
+                            <h3 class="text-muted"><i class="fa fa-tachometer me-2" aria-hidden="true"></i>Tableau de bord</h3>
+                            <!--Statistiques-->
+                            <div class="row mb-4">
+                                <!--Nombre de sous-préfectures-->
+                                <div class="col-md-4">
+                                    <!--contenu de la colonne-->
+                                    <div class="card text-center shadow-sm border border-1 border-card">
+                                        <div class="card-body">
+                                            <i class="fa fa-map fa-2x mb-2 icon-text" aria-hidden="true"></i>
+                                            <h6 class="text-muted">Sous-préfectures</h6>
+                                            <h3 class="fw-bold" id="sousPrefecture">200</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Nombre de population-->
+                                <div class="col-md-4">
+                                    <!--contenu de la colonne-->
+                                    <div class="card text-center shadow-sm border border-1 border-warning">
+                                        <div class="card-body">
+                                            <i class="fa fa-users fa-2x mb-2 text-warning" aria-hidden="true"></i>
+                                            <h6 class="text-muted">Population</h6>
+                                            <h3 class="fw-bold" id="population">30 M</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Nombre de centres de santé-->
+                                <div class="col-md-4">
+                                    <!--contenu de la colonne-->
+                                    <div class="card text-center shadow-sm border border-1 border-success">
+                                        <div class="card-body">
+                                            <i class="fa fa-hospital-user fa-2x mb-2 text-success" aria-hidden="true"></i>
+                                            <h6 class="text-muted">Centres de santé</h6>
+                                            <h3 class="fw-bold" id="centreSante">600</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Diagramme circulaire-->
+                            <div class="card  shadow-sm border border-1 border-card">
+                                <div class="card-body">
+                                    <i class="fa fa-chart-pie fa-2x mb-2 icon-text" aria-hidden="true"></i>
+                                    <h6 class="text-muted mb-3">
+                                        Equipement des sous-préfectures
+                                    </h6>
+                                    <!--canevas-->
+                                    <canvas id="equipementChart" height="20"></canvas>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!--Contenu de l'onglet mise à jour des données-->
+                        <div class="tab-pane fade" id="updateData">
+                            <h3 class="text-muted mb-4"><i class="fa fa-pencil-square m-2" aria-hidden="true"></i> Mise à jour des données</h3>
+                            <!--Import de nouvelles donnnées dans le système-->
+                            <div class="card border-card  shadow-sm mb-4">
+                                <div class="card-body">
+                                    <!--Titre-->
+                                    <h6 class="mb-3">
+                                        <i class="fa fa-cloud-upload icon-text" aria-hidden="true"></i>
+                                        Intégration de nouveaux centres de santé dans le système
+                                    </h6>
+                                    <!--Zone drag & drop-->
+                                    <label for="fileUpload" class="upload-zone">
+                                        <div class="upload-icon mb-2">
+                                            <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                                        </div>
+                                        <!--Texte par défaut-->
+                                        <p class="mb-1 fw-semibold" id="uploadText">
+                                            Faites glisser ou cliquez pour
+                                        </p>
+                                        <p class="text-muted mb-0" id="uploadSubText">
+                                            Importer des fichiers .zip (shp) ou .csv
+                                        </p>
+                                        <!--Nom du fichier importé-->
+                                        <p class="fw-semibold icon-text mt-2 d-none" id="fileName"></p>
+                                        <!--input-->
+                                        <input type="file" id="fileUpload" accept=".zip, .csv" hidden>
+                                    </label>
+                                    <!--Bouton d'intégration-->
+                                    <div class="mt-4">
+                                        <button type="submit" class="btn integrate btn-primary w-100">
+                                            Intéger dans le système
+                                        </button>
+                                    </div>
+                                    
+                                </div>
+
+                            </div>
+                            <!--Mise à jour des données existantes-->
+                            <div class="card border-card  shadow-sm">
+                                <div class="card-body">
+                                    <h6>
+                                        <i class="fa fa-pencil icon-text me-0" aria-hidden="true"></i>
+                                        Mise à jour des données existantes
+                                    </h6>
+                                    <!--Filtre-->
+                                    <div class="row mb-3">
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-filter filter-icon"></i>
+                                                </span>
+                                                <select class="form-select">
+                                                    <option value="sous-prefecture">Sous-préfecture</option>
+                                                    <option value="centre">Centre de santé</option>
+                                                    <option value="population">Population</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--Recherche sur les filtres-->
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" placeholder="Rechercher...">
+                                        </div>
+                                    </div>
+                                    <!--Tableau des données-->
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Libellé</th>
+                                                <th>Superficie</th>
+                                                <th class="text-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <td>Bingerville</td>
+                                            <td>5000 m²</td>
+                                            <td class="text-center action">
+                                                <i class="fa fa-pencil edit" title="Modifier" aria-hidden="true"></i>
+                                                <i class="fa fa-trash delete" title="Supprimer" aria-hidden="true"></i>
+                                            </td>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!--Contenu onglet de historique des données-->
+                        <div class="tab-pane fade" id="historic">
+                            <h3 class="mb-4 text-muted"><i class="fa fa-history me-2" aria-hidden="true"></i>Historique des données</h3>
+                            <!--Statistique des données supprimées-->
+                            <div class="row mb-4">
+                                <!--Données sous-préfectures supprimées-->
+                                <h6>
+                                    <i class="fa fa-sort-numeric-asc text-danger" aria-hidden="true"></i>
+                                    Statistique des données supprimées
+                                </h6>
+                                <div class="col-md-4">
+                                    <div class="card text-center shadow-sm border border-danger">
+                                        <div class="card-body">
+                                            <i class="fa fa-map fa-2x text-danger" aria-hidden="true"></i>
+                                            <h6 class="mt-2">Données sous-préfectures</h6>
+                                            <h4 id="delSous">50</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Données population supprimées-->
+                                <div class="col-md-4">
+                                    <div class="card text-center shadow-sm border border-warning">
+                                        <div class="card-body">
+                                            <i class="fa fa-users fa-2x text-warning" aria-hidden="true"></i>
+                                            <h6 class="mt-2">Données population</h6>
+                                            <h4 id="delPop">1000</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Données centres de santé supprimées-->
+                                <div class="col-md-4">
+                                    <div class="card text-center shadow-sm border border-info">
+                                        <div class="card-body">
+                                            <i class="fa fa-hospital-user fa-2x text-info" aria-hidden="true"></i>
+                                            <h6 class="mt-2">Centres de santé</h6>
+                                            <h4 id="selSante">500</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!--Données supprimées-->
+                            <div class="card border-card shadow-sm">
+                                <div class="card-body">
+                                    <h6>
+                                        <i class="fa fa-trash text-danger me-2" aria-hidden="true"></i>
+                                        Données supprimées
+                                    </h6>
+                                    <!--Filtre-->
+                                    <div class="row mb-3">
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-filter filter-icon"></i>
+                                                </span>
+                                                <select class="form-select">
+                                                    <option value="sous-prefecture">Sous-préfecture</option>
+                                                    <option value="centre">Centre de santé</option>
+                                                    <option value="population">Population</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--Recherche sur les filtres-->
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" placeholder="Rechercher...">
+                                        </div>
+                                    </div>
+                                    <!--Tableau des données-->
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Libellé</th>
+                                                <th>Superficie</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <td>Bingerville</td>
+                                            <td>5000 m²</td>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+              </div>
+        </div>
+     </div>
+     <!--Modale du profil utilisateur -->
+     <div class="modal fade" id="profilModal">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content shadow">
+                <div class="modal-header">
+                    <h5><i class="fa fa-user-circle me-2" aria-hidden="true"></i>Profil utilisateur</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!--Photo de profil-->
+                    <div class="text-center mb-4">
+                        <img src="{% static 'img/photo.jpg' %}" alt="photo-profil" class="profil-avatar rounded-circle">
+                    </div>
+                    <!--Nom & Prénom-->
+                    <div class="mb-3">
+                        <label class="text-muted"><i class="fa fa-user me-2 icon" aria-hidden="true"></i>Nom et prénoms</label>
+                        <input type="text" class="form-control bg-light" value="GNAMIEN Rémi" readonly>
+                    </div>
+                    <!--Username-->
+                    <div class="mb-3">
+                        <label class="text-muted"><i class="fa fa-user-plus me-2 icon" aria-hidden="true"></i>Pseudonyme</label>
+                        <input type="text" class="form-control bg-light" value="Remi" readonly>
+                    </div>
+                    <!--Email-->
+                    <div class="mb-3">
+                        <label class="text-muted"><i class="fa fa-envelope me-2 icon" aria-hidden="true"></i>Email</label>
+                        <input type="text" class="form-control bg-light" value="remi@spax.ci" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+
+     <!--Modale de paramètre -->
+     <div class="modal fade" id="parametreModal">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content shadow">
+                <div class="modal-header">
+                    <h5><i class="fa fa-gear me-2" aria-hidden="true"></i>Paramètre du compte</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!--Photo de profil-->
+                    <div class="text-center mb-3">
+                        <label  class="text-muted d-block form-label"><i class="fa fa-user me-2" aria-hidden="true"></i>Photo de profil</label>
+                        <!--Conteneur photo-->
+                        <div class="profil-upload mx-auto">
+                            <img src="{% static 'img/photo.jpg' %}" alt="photo-profil" class="profil-avatar-param rounded-circle" id="photoPreview">
+                            <input type="file" class="form-control profil-input" accept="image/*">
+                            <span class="upload-photo"><i class="fa fa-camera" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                    <!--Ancien de mot de passe-->
+                    <div class="mb-3">
+                        <label class="text-muted"><i class="fa fa-lock me-2 icon" aria-hidden="true"></i>Ancien de mot de passe</label>
+                        <input type="password" class="form-control" placeholder="Entrer votre ancien de mot de passe">
+                    </div>
+                    <!--Nouveau mot de passe-->
+                    <div class="mb-3">
+                        <label class="text-muted"><i class="fa fa-lock me-2 icon" aria-hidden="true"></i>Nouveau mot de passe</label>
+                        <input type="password" class="form-control" placeholder="Entrer votre nouveau de mot de passe">
+                    </div>
+                    <!--Confirmation de mot de passe-->
+                    <div class="mb-3">
+                        <label class="text-muted"><i class="fa fa-lock me-2 icon" aria-hidden="true"></i>Confirmation de mot de passe</label>
+                        <input type="password" class="form-control" placeholder="Confirmer votre mot de passe">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn w-100"><i class="fa fa-save me-2" aria-hidden="true"></i>Enregister</button>
+                </div>
+            </div>
+        </div>
+     </div>
+
+    <!-- Footer -->
+    <footer class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold"> &copy; e-santé 2026</span>
+        <span class="text-muted">Powered by <a href="" class="text-decoration-none" target="_blank">SPAX</a></span>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="shortcut icon" href="{% static 'img/e-sante.png' %}" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easyprint@2.1.9/libs/leaflet.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/MarkerCluster.min.css">
+    <title> {{title}} </title>
+    <link rel="stylesheet" href="{% static 'css/carte.css' %}">
+</head>
+
+<body>
+    <!-- Menu horizontal-->
+    <nav class="navbar bg-white shadow-sm sticky-top">
+        <div class="container-fluid d-flex align-items-center">
+            <!-- Logo de l'application -->
+            <img src="{% static 'img/e-sante.png' %}" alt="logo">
+            <!-- Texte descriptif-->
+            <div class="texte-descriptif">
+                <div class="text">
+                    <i class="fa fa-map" aria-hidden="true"></i> Couverture sanitaire - Côte d'Ivoire
+                </div>
+                <small class="text-muted"> Système WebSIG de suivi sanitaire</small>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Informations -->
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- SIDEBAR -->
+            <aside class="col-lg-3 col-md-4 sidebar p-3">
+
+                <!-- LOCALISATION -->
+                <div class="section-block">
+                    <div class="section-title">
+                        <i class="fa-solid fa-map mb-1 me-1"></i> Sous-préfecture
+                    </div>
+                    <div class="pref-box" id="currentPref">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span id="spName">Aucune</span>
+                    </div>
+                </div>
+
+                <!-- INDICATEURS -->
+                <div class="section-block">
+                    <div class="section-title mb-1">
+                        <i class="fa-solid fa-chart-line me-1"></i> Indicateurs clés
+                    </div>
+
+                    <div class="kpi kpi-blue">
+                        <div class="kpi-left">
+                            <i class="fa-solid fa-users"></i>
+                            <span>Population</span>
+                        </div>
+                        <strong id="pop">120 000</strong>
+                    </div>
+
+                    <div class="kpi kpi-green">
+                        <div class="kpi-left">
+                            <i class="fa-solid fa-hospital-user"></i>
+                            <span>Centres</span>
+                        </div>
+                        <strong id="centres">6</strong>
+                    </div>
+
+                    <div class="kpi kpi-orange">
+                        <div class="kpi-left">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                            <span>Ratio</span>
+                        </div>
+                        <strong id="ratio">20 000</strong>
+                    </div>
+
+                    <div class="kpi kpi-red">
+                        <div class="kpi-left">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                            <span>Statut</span>
+                        </div>
+                        <span class="status-dot"><i class="fa fa-circle text-success" aria-hidden="true"></i> <strong id="status"></strong></span>
+                    </div>
+                </div>
+
+                <hr class="text-white">
+
+                <!-- GRAPHIQUE -->
+                <div class="section-block">
+                    <div class="section-title mb-1">
+                        <i class="fa-solid fa-chart-pie"></i> Typologie des centres
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+
+                <hr class="text-white">
+
+                <!-- FILTRE -->
+                <div class="section-block">
+                    <div class="section-title mb-1">
+                        <i class="fa-solid fa-filter me-2"></i>Catégories de centre de santé
+                    </div>
+                    <select id="filterCenter" class="form-select form-select-sm custom-select">
+                        <option value="all">Tous les centres</option>
+                        <option value="nurse">Infirmeries</option>
+                        <option value="doctor">Dispensaires</option>
+                        <option value="hospital">Hôpitaux</option>
+                        <option value="dentist">Dentisterie</option>
+                        <option value="centre">CHU</option>
+                        <option value="clinic">Clinique</option>
+                        <option value="pharmacy">Pharmacie</option> 
+                        <option value="birthing_centre">Maternité</option> 
+                        <option value="laboratory">Laboratoire</option> 
+                        <option value="blood_bank">Centre National de Transfusion Sanguine</option>
+                    </select>
+                </div>
+
+            </aside>
+
+
+            <!-- MAP -->
+            <main class="col-lg-9 col-md-8 p-0 position-relative">
+                <div class="map-search mt-4 d-none" id="searchBox">
+                    <div class="input-group shadow-sm ">
+                        <input class="form-control" id="search" placeholder="Rechercher une sous-préfecture" required>
+                        <button class="btn" id="btnSearch">Rechercher</button>
+                    </div>
+                    <div class="alert d-none mt-1 alert-danger" role="alert" id="noFound"></div>
+                </div>
+                <div id="map"></div>
+                <div class="search-toogle">
+                    <button id="searchToggle" class="search-toggle-btn shadow-lg"><i class="fa fa-search" text-white aria-hidden="true"></i></button>
+                </div>
+            </main>
+
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="d-flex justify-content-between align-items-center ">
+        <span class="fw-semibold "> &copy; e-santé 2026</span>
+        <span class="text-muted ">Powered by <a href=" " class="text-decoration-none " target="_blank ">SPAX</a></span>
+    </footer>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js " integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=" "></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.min.js "></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js " integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI " crossorigin="anonymous "></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-easyprint@2.1.9/dist/bundle.min.js "></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.min.js "></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+    <script src="{% static 'js/carte.js' %} "></script>
+</body>
+
+</html>
