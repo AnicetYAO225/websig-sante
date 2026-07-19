@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     'backend',
     'frontend',
     'rest_framework',
@@ -78,11 +79,18 @@ WSGI_APPLICATION = 'websig.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'webgis_db',
+        'USER': 'postgres',
+        'PASSWORD': 'anicet94',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
+# Modele utilisateur personalisé ( faut paremetrer ici pour que AbstracUser dans model puisse marcher)
+
+AUTH_USER_MODEL = "backend.Utilisateur"
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -117,12 +125,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
-
+# ces fichiers permettent que nos fichiers restent meme dans le deploiement  
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# ca concerne les images /photo qu'on charge
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 

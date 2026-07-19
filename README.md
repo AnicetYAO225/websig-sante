@@ -21,3 +21,9 @@
 
 ### Démarrer l'application 
     python3 manage.py runserver
+
+## creer des migrations ( envoyer des modeles en base de données)
+    python3 manage.py makemigrations backend
+
+## Appliquer les migrations
+    python3 manage.py migrate
