@@ -1,98 +1,110 @@
-# on a creer un fichier managers.py pour gerer la partie utlisateur et tout ce qui est authentification
-
-# appeler la dependance de django et on va modifier apres
 from django.contrib.auth.models import BaseUserManager
 
 
-# personnaliser la methode d'authentification de django pour nous meme vu qu'on n'utilise pas
-class customUserManager(BaseUserManager):
+class CustomUserManager(BaseUserManager):
 
-    # Méthode permettant de creer l'utilisateur
+    # Méthode permettant de créer un utilisateur
     def create_user(
         self,
-
-        # Adresse email pour s'identifier/authentifier
+        # Adresse email pour s'authentifier
         email,
+
+        # Mot de passe pour s'authentifier
         password=None,
 
-        # Role de l'utilisateur
+        # Rôle utilisateur
         code_role=None,
 
-        # chemin/dictionnaire contenant les autres champs du model et permet d'appeler les autres champs
+        # Dictionnaire contenant les autres champs du modèle
         **extra_fields
-
     ):
-        # verifier que l'adresse email est renseignée
-        if not email:
 
-            # si le mail n'est pas fourni, lever une exception
+        # Vérifier que l'adresse e-mail est renseignée
+        if not email:
             raise ValueError(
                 "L'adresse email n'est pas fournie"
             )
 
-        # Normaliser l'adresse email pour dire que c'est vraiment une adresse email
+
+        # Normaliser l'adresse email
         email = self.normalize_email(email)
 
-        # creer l'utilisateur
+
+        # Créer l'utilisateur
         user = self.model(
             email=email,
             code_role=code_role,
             **extra_fields
         )
 
-        # Stocker le mot de passe
+
+        # Chiffrer le mot de passe
         user.set_password(password)
 
-        # enregistrer l'utilisateur dans la base de données
+
+        # Enregistrer l'utilisateur dans la base de données
         user.save(using=self._db)
 
+
+        # Retourner obligatoirement l'utilisateur créé
         return user
 
-    # creer le super utilisateur (admin)
+
+
+    # Méthode permettant de créer un super administrateur
     def create_superuser(
         self,
 
-        # Adresse pour s'identifier
+        # Adresse email
         email,
+
+        # Mot de passe
         password=None,
 
-        # Role de l'utilisateur
+        # Rôle utilisateur
         code_role=None,
 
-        # Dictionnaire contenant les autres champs du model
+        # Autres champs
         **extra_fields
     ):
 
-        # permet de definir un super utilisateur s'il n'est pas encore créé
+
+        # Donner les droits administrateur
         extra_fields.setdefault(
             "is_staff",
             True
         )
+
 
         extra_fields.setdefault(
             "is_superuser",
             True
         )
 
+
         extra_fields.setdefault(
             "is_active",
             True
         )
 
-        # appeler notre fonction create_user qui a été définie en haut
+
+        # Vérification de sécurité
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError(
+                "Le super utilisateur doit avoir is_staff=True"
+            )
+
+
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError(
+                "Le super utilisateur doit avoir is_superuser=True"
+            )
+
+
+        # Appel de create_user()
         return self.create_user(
-
-            # Adresse pour s'identifier
             email=email,
-            password= None,
-
-            # Role de l'utilisateur
-            code_role= None,
-
-            # chemin contenant les autres champs du model
+            password=password,
+            code_role=code_role,
             **extra_fields
-
         )
-        
-        
-       

@@ -22,8 +22,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("", include("frontend.urls")),
     path("api/", include("backend.urls")),
-    
-    #page d'admin par defaut de django (on ne va pas l'utiliser)
     path('admin/', admin.site.urls),
 ]
 

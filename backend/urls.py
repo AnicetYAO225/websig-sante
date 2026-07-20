@@ -4,6 +4,6 @@ from backend.views import *
 app_name = "backend"
 
 urlpatterns = [
-    #path("", include("frontend.urls")),
+    path("register/", RegisterUtilisateurAPIView.as_view(), name="register"),
     
 ]

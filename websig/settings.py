@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -73,6 +74,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'websig.wsgi.application'
 
+# URL d'authentification, rédirection et de déconnexion
+LOGIN_URL = "/auth/"
+LOGIN_REDIRECT_URL = "/auth/admin/"
+LOGOUT_REDIRECT_URL = "/auth/"
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
@@ -83,13 +88,40 @@ DATABASES = {
         'NAME': 'webgis_db',
         'USER': 'postgres',
         'PASSWORD': 'anicet94',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': '192.168.64.1',
+        'PORT': '5432'
     }
 }
 
-# Modele utilisateur personalisé ( faut paremetrer ici pour que AbstracUser dans model puisse marcher)
+# REST FRAMEWORK
+REST_FRAMEWORK = {
 
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+
+}
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=3),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    "USER_ID_FIELD": "num_utilisateur",
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': os.getenv('JWT_SECRET_KEY') 
+}
+
+# utilisaleur customisé 
 AUTH_USER_MODEL = "backend.Utilisateur"
 
 # Password validation
@@ -125,13 +157,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
-# ces fichiers permettent que nos fichiers restent meme dans le deploiement  
+
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# ca concerne les images /photo qu'on charge
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
