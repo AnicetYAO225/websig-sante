@@ -1,0 +1,113 @@
+/*réinitialisation générale*/
+
+* {
+    box-sizing: border-box;
+}
+
+
+/*style du corps de la page*/
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url("../img/bg.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+
+/*style du container principal*/
+
+.auth-container {
+    background: #fff;
+    width: 380px;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    border: 3px solid #0b7196;
+}
+
+
+/* logo*/
+
+.logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    width: 130px;
+}
+
+
+/* Titre du formulaire */
+
+.auth-form h2 {
+    text-align: center;
+    margin-bottom: 18px;
+    color: #0b7196;
+}
+
+
+/* Les champs du formulaire */
+
+.form-group input {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 10px;
+    border: 1.5px solid #0b7196;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: hsl(207, 80%, 25%);
+}
+
+
+/* Mot de passe oublié */
+
+.auth-link {
+    text-align: right;
+    margin-bottom: 12px;
+    margin-top: 10px;
+}
+
+.auth-link a {
+    text-decoration: none;
+    font-style: italic;
+    color: #0b7196;
+}
+
+.auth-link a:hover {
+    color: #073e52;
+}
+
+
+/* Button de connexion */
+
+.btn {
+    width: 100%;
+    padding: 13px;
+    cursor: pointer;
+    font-size: 18px !important;
+    background-color: #0b7196 !important;
+    color: #fff !important;
+}
+
+.btn:hover {
+    background-color: #064a63 !important;
+}
+
+
+/* Responsive: petit écran*/
+
+@media (max-width:480px) {
+    /* conteneur principal */
+    .auth-container {
+        width: 90%;
+        padding: 25px;
+    }
+}
