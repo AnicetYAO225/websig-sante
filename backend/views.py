@@ -56,6 +56,7 @@ class RegisterUtilisateurAPIView(APIView):
     """
     API permettant de créer un nouvel utilisateur.
     """
+    #permission_classes = [AllowAny]
     permission_classes = [IsWebSIGAdmin]
     def post(self, request, *args, **kwargs):
 
