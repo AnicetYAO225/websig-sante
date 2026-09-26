@@ -18,6 +18,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -27,7 +28,7 @@ SECRET_KEY = 'django-insecure-f2w#ffp!*-(spl$#7e%j3c6xqyc=j-lx_j-%@l!4ch*sy_@u__
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["e-sante.onrender.com"]
+ALLOWED_HOSTS = ["e-sante.onrender.com", "127.0.0.1"]
 
 
 # Application definition
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -54,6 +56,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 ROOT_URLCONF = 'websig.urls'
 
@@ -173,10 +182,11 @@ USE_TZ = True
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # E-mail de réinitialisation : en développement le lien est affiché dans la console.
 # En production, renseignez EMAIL_BACKEND et les variables SMTP correspondantes.
