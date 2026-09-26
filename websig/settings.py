@@ -194,7 +194,7 @@ EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.smtp.Email
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "infos@e-sante.ci")
 EMAIL_HOST = os.getenv("EMAIL_HOST", "sandbox.smtp.mailtrap.io")
 EMAIL_PORT = int(os.getenv("EMAIL_PORT", "2525"))
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "8ae8383fde3c0b")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "fd541f023d4e06")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "e6260a2ec5ef9f")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "26dfff39fc698a")
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True").lower() == "true"
 
